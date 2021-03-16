@@ -1,0 +1,25 @@
+.taskToDo,
+.taskToDo button,
+.taskToDo p {
+  display: flex;
+  margin: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 3px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.taskToDo p {
+    pointer-events: none;
+  }
+
+  .doneTask p {
+    display: flex;
+    margin: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 3px;
+    font-size: 25px;
+    text-decoration: line-through;
+  }
