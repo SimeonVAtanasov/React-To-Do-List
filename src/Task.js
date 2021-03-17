@@ -4,8 +4,8 @@ import "./Task.css"
 function Task(props) {
 
   return (
-    <div className="taskToDo" onClick={(ev) => { ev.target.classList.toggle('doneTask') }}>
-      <p>
+    <div className={props.className} >
+      <p onClick={() => { props.onClick(props.id) }}> 
         {props.title}
       </p>
       <button

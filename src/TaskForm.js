@@ -1,5 +1,6 @@
 import React from "react";
 import Task from "./Task"
+import TaskClass from "./taskModel"
 
 class TaskForm extends React.Component {
     state = (() => {
@@ -12,26 +13,55 @@ class TaskForm extends React.Component {
         })
     })();
 
+    componentDidUpdate(prevState) {
+        if (this.state.tasks !== prevState.tasks && this.state.inputValue === "") {
+            localStorage.setItem("state", JSON.stringify(this.state))
+        }
+    }
+
     addTask = () => {
         let value = this.state.inputValue;
+        let newTask = new TaskClass(value);
 
         this.setState({
             inputValue: "",
-            tasks: [...this.state.tasks, value]
+            tasks: [...this.state.tasks, newTask]
         })
     };
 
-    componentDidUpdate(prevState) {
-        if (this.state.tasks !== prevState.tasks && !this.state.inputValue ) {
-            localStorage.setItem("state", JSON.stringify(this.state))
+    handleDoneTask = (id) => {
+        let myState = this.state.tasks;
+
+        if (myState && myState[id].className === "taskToDo") {
+            let myTasks = this.state.tasks
+            let taskToChange = myTasks[id]
+            taskToChange.className = "taskToDo doneTask"
+
+            console.log(id, taskToChange, myTasks);
+            this.setState({
+                ...this.state,
+                tasks: myTasks
+            })
+        } else if (myState) {
+            console.log("ill goback");
+            let myTasks = this.state.tasks
+            let taskToChange = myTasks[id]
+            taskToChange.className = "taskToDo"
+
+            console.log(id, taskToChange, myTasks);
+            this.setState({
+                ...this.state,
+                tasks: myTasks
+            })
         }
+
     }
 
     onInput = (ev) => {
         this.setState({
             inputValue: ev.target.value
         })
-        
+
     };
 
     onSubmit = (ev) => {
@@ -64,7 +94,11 @@ class TaskForm extends React.Component {
                             onInput={this.onInput}
                         />
 
-                        <button type="reset" className="button">
+                        <button type="reset" className="button" onClick={() => {
+                            this.setState({
+                                ...this.state, inputValue: ""
+                            })
+                        }}>
                             <i className="far fa-trash-alt"></i>
                         </button>
 
@@ -75,7 +109,13 @@ class TaskForm extends React.Component {
                 </div>
                 <main id="main">
                     {this.state.tasks.map((task, index) => (
-                        <Task title={task} id={index} key={task} onDelete={this.handleDeleteTask} />
+                        <Task
+                            title={task.title}
+                            className={task.className}
+                            id={index}
+                            key={task.title}
+                            onDelete={this.handleDeleteTask}
+                            onClick={this.handleDoneTask} />
                     ))}
                 </main>
 
