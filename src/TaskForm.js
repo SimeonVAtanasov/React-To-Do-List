@@ -1,6 +1,5 @@
 import React from "react";
 import Task from "./Task"
-import TaskClass from "./taskModel"
 
 class TaskForm extends React.Component {
     state = (() => {
@@ -21,7 +20,10 @@ class TaskForm extends React.Component {
 
     addTask = () => {
         let value = this.state.inputValue;
-        let newTask = new TaskClass(value);
+        let newTask = {
+            title: value,
+            className:"taskToDo"
+        };
 
         this.setState({
             inputValue: "",

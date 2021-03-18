@@ -8,12 +8,12 @@ function App() {
       <header id="header">
         <div className="box">
           <h2>Your tasks To Do:</h2>
-          
+
         </div>
       </header>
 
-      <TaskForm/>
-      
+      <TaskForm />
+
       <footer>
         <h3>By Simo.Atanasov</h3>
       </footer>
